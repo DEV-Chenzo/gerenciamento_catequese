@@ -11,6 +11,8 @@ node_modules
 !.yarn/versions
 /server/src/generated/prisma
 
+# IDE
+.vscode
 
 # testing
 coverage

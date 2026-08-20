@@ -1,18 +1,6 @@
-import { ClassYear } from "../database/prisma/generated/prisma/client"; // Ajuste o caminho da importação
+// Ajuste o caminho da importação
+import RegistrarChamadaEmLoteInput from "../../domain/entities/RegisterBatchCall";
 import { prisma } from "../database/lib/prisma";
-
-// Interface para os itens recebidos no payload da chamada
-export interface RegistroChamadaItem {
-  studentId: string;
-  present: boolean;
-}
-
-export interface RegistrarChamadaEmLoteInput {
-  date: Date | string;
-  classYear: ClassYear; // 'CURRENT' | 'NEXT'
-  records: RegistroChamadaItem[];
-}
-
 class AttendanceService {
   async registerBulkAttendance(data: RegistrarChamadaEmLoteInput) {
     const dataChamada = new Date(data.date);

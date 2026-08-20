@@ -6,12 +6,15 @@ export default class StudentServices {
     const students = await prisma.student.createMany({
       data: data.list.map((name) => ({
         name,
-      })) 
+      })),
     });
-    return students
+    return {
+      message: "Alunos criados com sucesso",
+      totalCriado: students.count,
+    };
   }
-  async getStudent(name: string) {
-    const student = await prisma.student.findMany({
+  async getStudents(name: string) {
+    const students = await prisma.student.findMany({
       where: {
         name: {
           contains: name,
@@ -33,6 +36,36 @@ export default class StudentServices {
         name: "asc",
       },
     });
-    return student;
+    return students;
+  }
+  async getStudentIdByName(name: string): Promise<string | null> {
+    const student = await prisma.student.findFirst({
+      where: {
+        name: {
+          equals: name,
+          mode: "insensitive", // Ignora maiúsculas e minúsculas
+        },
+      },
+      select: {
+        id: true, // Seleciona apenas o campo 'id' no banco
+      },
+    });
+    // Retorna a string do id ou null se não encontrar
+    return student ? student.id : null;
+  }
+  async deleteStudents(data: StudentsList) {
+    const deletedStudents = await prisma.student.deleteMany({
+      where: {
+        name: {
+          in: data.list,
+        },
+      },
+    });
+    return {
+      message: "Alunos deletados com sucesso",
+      totalDeletado: deletedStudents.count,
+    };
   }
 }
+
+export const studentServices = new StudentServices();
