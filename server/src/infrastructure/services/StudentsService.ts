@@ -13,7 +13,23 @@ export default class StudentServices {
       totalCriado: students.count,
     };
   }
-  async getStudents(name: string) {
+  async getStudents() {
+    const students = await prisma.student.findMany({
+      select: {
+        id: true,
+        name: true,
+        classYear: true,
+        summary: {
+          select: {
+            totalPresents: true,
+            totalAbsences: true,
+          },
+        },
+      },
+    });
+    return students;
+  }
+  async getStudentsByName(name: string) {
     const students = await prisma.student.findMany({
       where: {
         name: {

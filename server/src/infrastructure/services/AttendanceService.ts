@@ -2,6 +2,19 @@
 import RegistrarChamadaEmLoteInput from "../../domain/entities/RegisterBatchCall";
 import { prisma } from "../database/lib/prisma";
 class AttendanceService {
+  async getAttendanceRecord(id: string, date?: Date) {
+    const data = await prisma.attendanceRecord.findMany({
+      where: { id: id, date: date },
+    });
+    return data;
+  }
+  async getAttendanceSummary(recordsId: Array<string>) {
+    const data = recordsId.map((id) =>
+      prisma.attendanceSummary.findMany({ where: { studentId: id } }),
+    );
+    return data;
+  }
+
   async registerBulkAttendance(data: RegistrarChamadaEmLoteInput) {
     const dataChamada = new Date(data.date);
 

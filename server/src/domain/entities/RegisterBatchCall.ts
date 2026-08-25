@@ -2,7 +2,7 @@ import { ClassYear } from "../../infrastructure/database/prisma/generated/prisma
 import RegistroChamadaItem from "../interfaces/ICallRecordItem";
 
 export default interface RegistrarChamadaEmLoteInput {
-  date: Date | string;
+  date: Date | string | number;
   classYear: ClassYear; // 'CURRENT' | 'NEXT'
   records: RegistroChamadaItem[];
 }
