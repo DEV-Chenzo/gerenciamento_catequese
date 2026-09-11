@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ClassYear {
+  CURRENT
+  NEXT
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("users")
+}
+
+model Student {
+  id        String    @id @default(uuid())
+  name      String
+  classYear ClassYear @default(CURRENT) @map("class_year")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  attendances AttendanceRecord[]
+  summary     AttendanceSummary?
+
+  @@map("students")
+}
+
+model AttendanceRecord {
+  id        String    @id @default(uuid())
+  studentId String    @map("student_id")
+  date      DateTime  @db.Date
+  present   Boolean
+  classYear ClassYear @map("class_year")
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, date])
+  @@map("attendance_records")
+}
+
+model AttendanceSummary {
+  id            String @id @default(uuid())
+  studentId     String @unique @map("student_id")
+  totalPresents Int    @default(0) @map("total_presents")
+  totalAbsences Int    @default(0) @map("total_absences")
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@map("attendance_summaries")
+}

@@ -9,6 +9,10 @@ node_modules
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+/server/src/generated/prisma
+
+# IDE
+.vscode
 
 # testing
 coverage
