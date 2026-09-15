@@ -9,9 +9,9 @@ class AttendanceService {
     return data;
   }
   async getAttendanceSummary(recordsId: Array<string>) {
-    const data = recordsId.map((id) =>
+    const data = await Promise.all(recordsId.map((id) =>
       prisma.attendanceSummary.findMany({ where: { studentId: id } }),
-    );
+    ));
     return data;
   }
 

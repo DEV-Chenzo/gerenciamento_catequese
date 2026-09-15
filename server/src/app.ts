@@ -4,7 +4,8 @@ import { PrefixApi } from "./utils/prefix";
 import { authRoutes } from "./presentation/routers/authRouter";
 import { studentRoutes } from "./presentation/routers/studentsRouters";
 import { attendanceRoutes } from "./presentation/routers/attendanceRouter";
-const App = Fastify({
+
+export const App = Fastify({
   logger: true,
 });
 if (!process.env.JWT_SECRET) {
@@ -18,9 +19,11 @@ App.register(authRoutes, { prefix: PrefixApi });
 App.register(studentRoutes, { prefix: PrefixApi });
 App.register(attendanceRoutes, { prefix: PrefixApi });
 
-try {
-  await App.listen({ port: 5000 });
-} catch (err) {
-  App.log.error(err);
-  process.exit(1);
+if (process.env.NODE_ENV !== "test") {
+  try {
+    await App.listen({ port: 5000 });
+  } catch (err) {
+    App.log.error(err);
+    process.exit(1);
+  }
 }

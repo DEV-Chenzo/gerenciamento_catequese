@@ -7,7 +7,9 @@
   "type": "module",
   "main": "app.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run",
+    "teste:watch": "vitest ",
+    "dev": "tsx watch app.ts",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "prisma:generate": "prisma generate",
