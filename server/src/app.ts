@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import jwt from "@fastify/jwt";
+import cors from '@fastify/cors'
 import { PrefixApi } from "./utils/prefix";
 import { authRoutes } from "./presentation/routers/authRouter";
 import { studentRoutes } from "./presentation/routers/studentsRouters";
@@ -11,7 +12,12 @@ export const App = Fastify({
 if (!process.env.JWT_SECRET) {
   throw new Error("A variável de ambiente JWT_SECRET não está definida!");
 }
-
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000'
+App.register(cors, {
+  // Permite a URL vinda da variável de ambiente
+  origin: [frontendUrl, 'http://localhost:3000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+})
 App.register(jwt, {
   secret: process.env.JWT_SECRET,
 });
