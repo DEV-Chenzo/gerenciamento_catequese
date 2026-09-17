@@ -1,2 +1,54 @@
 @import "tailwindcss";
 
+@theme {
+  /* Fontes */
+  --font-serif: 'Literata', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Raio de Borda (ROUND_EIGHT / 8px) */
+  --radius-xs: 0.25rem;   /* 4px */
+  --radius-sm: 0.375rem;  /* 6px */
+  --radius-md: 0.5rem;    /* 8px - Padrão do Design System */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-2xl: 1.5rem;   /* 24px */
+  --radius-full: 9999px;
+
+  /* Cores Principais - Azul Pastoral */
+  --color-primary: #2b5b84;
+  --color-primary-hover: #224869;
+  --color-primary-container: #d6e4f3;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #0b2844;
+
+  /* Cores Secundárias - Trigo & Dourado Sacramental */
+  --color-secondary: #c98b2c;
+  --color-secondary-hover: #b07620;
+  --color-secondary-container: #fef3df;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #412a02;
+
+  /* Superfícies & Fundos Acolhedores (Off-White / Bege Suave) */
+  --color-surface: #fbf9f5;
+  --color-surface-dim: #dbdad6;
+  --color-surface-bright: #fbf9f5;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f5f3ef;
+  --color-surface-container: #efede8;
+  --color-surface-container-high: #e9e6e0;
+  --color-surface-container-highest: #e2ded7;
+
+  /* Tipografia & Contrastes de Texto */
+  --color-on-surface: #1b1c1e;
+  --color-on-surface-variant: #565d66;
+  --color-outline: #747a84;
+  --color-outline-variant: #c4c7d0;
+
+  /* Status Pastoral & Presença */
+  --color-status-present: #2e6b38;       /* Presente (Verde Pastoral) */
+  --color-status-present-bg: #e5f4e8;
+  --color-status-justified: #b45309;     /* Falta Justificada (Âmbar) */
+  --color-status-justified-bg: #fef3c7;
+  --color-status-absent: #b3261e;        /* Falta (Terracota / Vermelho suave) */
+  --color-status-absent-bg: #fde8e7;
+}
