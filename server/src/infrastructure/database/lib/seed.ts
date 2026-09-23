@@ -2,7 +2,7 @@ import { prisma } from "./prisma";
 import bcrypt from "bcrypt";
 
 async function main() {
-  const hashedPassword = await bcrypt.hash("SenhaSegura123!", 10);
+  const hashedPassword = await bcrypt.hash("SenhaSegura123", 10);
 
   const admin = await prisma.user.upsert({
     where: { email: "admin@catequese.com" },
@@ -17,12 +17,13 @@ async function main() {
   console.log("Usuário pré-cadastrado com sucesso:", admin.email);
 }
 
-main()
-  .catch((e) => {
-    console.error(e);
+(async () => {
+  try {
+    await main();
+  } catch (e) {
+    console.error("Erro no seed:", e);
     process.exit(1);
-  })
-  .finally(async () => {
+  } finally {
     await prisma.$disconnect();
-  });
-3. 
+  }
+})();

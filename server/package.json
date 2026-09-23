@@ -9,7 +9,7 @@
   "scripts": {
     "test": "vitest run",
     "teste:watch": "vitest ",
-    "dev": "tsx watch app.ts",
+    "dev": "tsx watch src/app.ts",
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "prisma:generate": "prisma generate",
