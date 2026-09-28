@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');@import "tailwindcss";
 
 @theme {
   /* Fontes */
@@ -41,7 +40,7 @@
   --color-surface-container-highest: #e2ded7;
 
   /* Tipografia & Contrastes de Texto */
-  --color-on-surface: #1b1c1e;
+  --color-on-surface: #28292e;
   --color-on-surface-variant: #565d66;
   --color-outline: #747a84;
   --color-outline-variant: #c4c7d0;
