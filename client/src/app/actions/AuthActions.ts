@@ -1,5 +1,5 @@
 'use server';
-import authService from "@/services/AuthService";
+import authService from "@/services/internal/AuthService";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 

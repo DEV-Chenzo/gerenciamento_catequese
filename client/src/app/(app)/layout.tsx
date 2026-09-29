@@ -6,7 +6,7 @@ import { RxDashboard, RxListBullet, RxPeople } from "react-icons/rx";
 import AsyncFullYear from "@/components/AsyncFullYear";
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex bg-surface-container-low ">
+    <div className="min-h-screen  flex bg-surface-container-low ">
       <aside className="flex flex-col items-center w-65 p-2 bg-surface-container">
         <section className="flex items-center gap-3 my-4">
           <div className="w-10 h-10 flex items-center justify-center rounded-md bg-primary">
@@ -69,7 +69,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
           </section>
         </header>
-        <main className="mt-2 p-2">{children}</main>
+        <main className="mt-2 p-2 ">{children}</main>
       </div>
     </div>
   );

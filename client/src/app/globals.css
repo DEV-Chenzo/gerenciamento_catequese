@@ -52,4 +52,14 @@
   --color-status-justified-bg: #fef3c7;
   --color-status-absent: #b3261e;        /* Falta (Terracota / Vermelho suave) */
   --color-status-absent-bg: #fde8e7;
+
+  /* Cores dos Tempos Litúrgicos */
+  --color-liturgy-purple: #8d61ae;
+  --color-liturgy-red: #ff6767;
+  --color-liturgy-green: #83e883;
+  --color-liturgy-gold: #ffe07d;
+  --color-liturgy-rose: #ff76aa;
+  --color-liturgy-white: #fafff8;
+  --color-liturgy-black: #242323;
+
 }
