@@ -15,9 +15,9 @@ export default async function WelcomeSection() {
   const liturgyText = liturgy.text;
   return (
     <>
-      <section className="flex items-center justify-between mx-3 gap-10 py-4 px-10 bg-surface-container rounded-lg">
+      <section className="flex items-center justify-between w-240 mx-3 gap-10 py-4 px-10 bg-surface-container rounded-lg">
         <div className="flex flex-col items-start justify-center gap-2 p-4">
-          <div className={` ${liturgyBg} ${liturgyText} flex items-center justify-center  gap-2 py-1 px-3 mb-1 rounded-2xl text-sm font-medium font-sans`}>
+          <div className={` ${liturgyBg} ${liturgyText} flex items-center justify-center w-122 gap-2 py-1 px-3 mb-1 rounded-2xl text-sm font-medium font-sans`}>
             <div className={`w-3 h-3 rounded-full ${liturgyBg} brightness-80`}></div>
             {liturgyData.date} - {liturgyData.liturgy}
           </div>

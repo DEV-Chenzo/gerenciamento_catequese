@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { MdOutlineChurch } from "react-icons/md";
+import { BsPersonPlus } from "react-icons/bs";
 import { RxDashboard, RxListBullet, RxPeople } from "react-icons/rx";
 import AsyncFullYear from "@/components/AsyncFullYear";
 export default function AppLayout({ children }: { children: React.ReactNode }) {
@@ -36,11 +37,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <RxPeople className="text-lg" />
               <Link href="/students">Gestão de Alunos</Link>
             </li>
+            <li className="w-53 flex items-center justify-baseline py-2 px-3 gap-2 mb-4 text-on-surface-variant font-sans text-md font-medium rounded-md">
+              <BsPersonPlus className="text-lg" />
+              <Link href="/registration">Cadastrar Alunos</Link>
+            </li>
           </ul>
         </nav>
       </aside>
-      <div className="flex-1 flex flex-col gap-1">
-        <header className=" h-20 py-4 px-7 mb-0 flex items-center justify-between gap-2 bg-surface-container-low">
+      <div className="flex-1 flex flex-col gap-1 bg-surface-container-low">
+        <header className=" h-20 py-4 px-7 mb-0 flex items-center justify-between gap-2 bg-surface-container-low border-b-8 border-surface-container">
           <section>
             <h1 className="text-xl font-sans font-medium leading-none text-on-surface">
               Paróquia Catedral Santo Antônio
@@ -69,7 +74,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
           </section>
         </header>
-        <main className="mt-2 p-2 ">{children}</main>
+        <main className="mt-2 p-2">{children}</main>
       </div>
     </div>
   );
