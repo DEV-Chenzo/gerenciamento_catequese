@@ -81,6 +81,14 @@ A seed cria, ou atualiza sem duplicar, o usuário inicial:
 
 ### 6. Inicie a API
 
+Crie um arquivo `.env` na raiz da pasta `server`:
+
+```env
+DATABASE_URL="postgresql://catequese:catequese@localhost:5000/catequese?schema=public"
+JWT_SECRET="exemplo_de_token_jwt"
+FRONTEND_URL="http://localhost:3000"
+```
+
 No primeiro terminal, dentro de `server`, execute:
 
 ```bash

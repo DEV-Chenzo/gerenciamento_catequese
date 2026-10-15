@@ -4,8 +4,9 @@ import { StudentsList } from "../../domain/entities/StudentList";
 export default class StudentServices {
   async createStudents(data: StudentsList) {
     const students = await prisma.student.createMany({
-      data: data.list.map((name) => ({
-        name,
+      data: data.list.map((student) => ({
+        name: student.name,
+        classYear: student.classYear,
       })),
     });
     return {
@@ -70,10 +71,12 @@ export default class StudentServices {
     return student ? student.id : null;
   }
   async deleteStudents(data: StudentsList) {
+    const studentsNames = data.list.map((student) => student.name);
+
     const deletedStudents = await prisma.student.deleteMany({
       where: {
         name: {
-          in: data.list,
+          in: studentsNames,
         },
       },
     });
