@@ -15,10 +15,21 @@ export default function RegistrationPage() {
 
     setStudents((prevStudents) => [...prevStudents, newStudent]);
   };
+
+  const handleCreateStudent = (students: Student[]) => {
+    console.log("Alunos cadastrados:", students);
+    setStudents([]); // Limpa a lista de alunos após o cadastro
+  }
+
+  const handleDeleteStudent = (studentToDelete: Student[]) => {
+    setStudents((prevStudents) =>
+      prevStudents.filter((student) => !studentToDelete.some(s => s.id === student.id))
+    );
+  }
   return (
     <div className="flex flex-col items-center justify-center h-full">
         <InsertFormComponent onAddStudent={handleAddStudent} />
-        <StudentTablet students={students} />
+        <StudentTablet students={students} registerStudent={handleCreateStudent} deleteStudent={handleDeleteStudent} />
     </div>
   );
 }

@@ -7,7 +7,7 @@ interface RawLiturgyResponse {
 }
 
 export default async function liturgyService() {
-  const response = await fetch("https://liturgia.up.railway.app/v2/");
+  const response = await fetch(`${process.env.API_LITURGY_URL}`);
   const data = await response.json();
   const liturgyData: RawLiturgyResponse = {
     date: data.data,
