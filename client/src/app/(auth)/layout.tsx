@@ -14,7 +14,7 @@ export default function AuthLayout({
             CATEQUESE - PAROQUIA CATEDRAL SANTO ANTONIO
           </p>
           <h1 className="text-2xl font-bold text-gray-800">
-            Portal Catequetico
+            Portal Catequético
           </h1>
           <p className="text-sm text-gray-500">
             Entre para acessar a plataforma

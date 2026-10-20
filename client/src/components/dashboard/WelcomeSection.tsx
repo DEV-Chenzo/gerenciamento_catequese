@@ -15,10 +15,10 @@ export default async function WelcomeSection() {
   const liturgyText = liturgy.text;
   return (
     <>
-      <section className="flex items-center justify-between w-240 mx-3 gap-10 py-4 px-10 bg-surface-container rounded-lg">
+      <section className="flex items-center justify-between w-240 mx-3 gap-10 py-4 px-10 bg-surface-container rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.1)]">
         <div className="flex flex-col items-start justify-center gap-2 p-4">
           <div className={` ${liturgyBg} ${liturgyText} flex items-center justify-center w-122 gap-2 py-1 px-3 mb-1 rounded-2xl text-sm font-medium font-sans`}>
-            <div className={`w-3 h-3 rounded-full ${liturgyBg} brightness-80`}></div>
+            <div className={`w-3 h-3 rounded-full ${liturgyBg} brightness-80 `}></div>
             {liturgyData.date} - {liturgyData.liturgy}
           </div>
           <h1 className="text-4xl font-serif font-semibold leading-none font-stretch-condensed tracking-light text-primary">
@@ -31,7 +31,7 @@ export default async function WelcomeSection() {
           </p>
         </div>
         <section className="flex flex-col self-end-safe items-start justify-center gap-4 p-4">
-          <div className={` ${liturgyBorder} w-80 bg-surface-container-low rounded-lg p-4 flex flex-col items-start justify-center gap-2 border-l-8`}>
+          <div className={` ${liturgyBorder} w-80 bg-surface-container-low rounded-lg p-4 flex flex-col items-start justify-center gap-2 border-l-8 shadow-[0_2px_4px_rgba(0,0,0,0.1)]`}>
             <p className="text-md font-sans font-medium">Antífona</p>
             <p className="text-sm font-sans font-medium text-on-surface-variant">
               &quot;{liturgyData.entranceAntiphon}.&quot;

@@ -1,18 +1,28 @@
 "use server";
 import { Student } from "@/components/registration/InsertForm";
 
-export async function createStudent(studentData: Student[]): Promise<Student[]> {
-  const response = await fetch(`${process.env.API_INTERNAL_URL}/students`, {
+export async function createStudent(studentData: Student[]): Promise<{ message: string; totalCriado: number }> {
+  const baseUrl = process.env.API_INTERNAL_URL;
+  const targetUrl = `${baseUrl}/students`;
+
+  const response = await fetch(targetUrl, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(studentData)
+    body: JSON.stringify({ list: studentData })
   });
 
+  // Lê como texto primeiro para inspecionar se veio HTML ou JSON
+  const responseText = await response.text();
+
   if (!response.ok) {
-    throw new Error("Failed to create student");
+    throw new Error(`Erro na API (${response.status}): ${responseText}`);
   }
 
-  return response.json();
+  try {
+    return JSON.parse(responseText);
+  } catch (err) {
+    throw new Error(`A API retornou HTML em vez de JSON na URL "${targetUrl}". Resposta recebida: ${responseText.substring(0, 100)}... erro: ${err}`);
+  }
 }

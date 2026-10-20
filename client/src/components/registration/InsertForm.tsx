@@ -42,7 +42,7 @@ export default function InsertFormComponent({ onAddStudent }: InsertFormComponen
   };
 
   return (
-    <section className="flex flex-col items-center justify-center h-90 w-200 rounded-lg bg-surface-container">
+    <section className="flex flex-col items-center justify-center h-90 w-200 rounded-lg shadow-[0_2px_4px_rgba(0,0,0,0.1)] bg-surface-container">
       <div className="flex flex-col items-start w-165 gap-1 mb-4">
         <h2 className="text-3xl font-serif font-medium text-primary font-stretch-ultra-condensed">
           Cadastro de Aluno

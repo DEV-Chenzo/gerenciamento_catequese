@@ -34,20 +34,21 @@ npm run prisma:generate
 
 ### 3. Configure as portas e o ambiente da API
 
-A API e o banco não podem usar a mesma porta no computador. A API já usa a
-porta `5000`, portanto exponha o PostgreSQL na porta `5432`. No arquivo
+A API e o banco não podem usar a mesma porta no computador. A API usa a porta
+`5000`; o PostgreSQL do Docker será exposto em `55432` para evitar conflito
+com serviços PostgreSQL locais. No arquivo
 `server/docker-compose.yml`, deixe o mapeamento assim:
 
 ```yml
 ports:
-  - "5432:5432"
+  - "55432:5432"
 ```
 
 Em seguida, configure `server/.env` com a porta do banco e uma chave JWT
 segura:
 
 ```env
-DATABASE_URL="postgresql://catequese:catequese@localhost:5432/catequese?schema=public"
+DATABASE_URL="postgresql://catequese:catequese@localhost:55432/catequese?schema=public"
 JWT_SECRET="defina-um-segredo-seguro"
 FRONTEND_URL="http://localhost:3000"
 ```
@@ -81,10 +82,11 @@ A seed cria, ou atualiza sem duplicar, o usuário inicial:
 
 ### 6. Inicie a API
 
-Crie um arquivo `.env` na raiz da pasta `server`:
+Use o arquivo `server/.env` criado na etapa 3. A URL do banco deve continuar
+apontando para a porta `55432` (a porta `5000` pertence à API):
 
 ```env
-DATABASE_URL="postgresql://catequese:catequese@localhost:5000/catequese?schema=public"
+DATABASE_URL="postgresql://catequese:catequese@localhost:55432/catequese?schema=public"
 JWT_SECRET="exemplo_de_token_jwt"
 FRONTEND_URL="http://localhost:3000"
 ```
