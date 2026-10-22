@@ -1,15 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Student } from "@/components/registration/InsertForm";
+import StudentTableProps from "@/lib/props/StudentTableProps";
 import { TiDelete } from "react-icons/ti";
 import { FaCheck } from "react-icons/fa6";
-
-interface StudentTableProps {
-  students: Student[];
-  registerStudent: (students: Student[]) => void;
-  deleteStudent: (students: Student[]) => void;
-}
 
 export default function StudentTable({
   students,

@@ -1,16 +1,6 @@
 'use client';
 import { useState } from "react";
-
-// Definição do tipo do aluno
-export interface Student {
-  id: string;
-  name: string;
-  classYear: "CURRENT" | "NEXT";
-}
-
-interface InsertFormComponentProps {
-  onAddStudent: (student: Omit<Student, "id">) => void;
-}
+import InsertFormComponentProps from "@/lib/props/InsertFormComponentProps";
 
 export default function InsertFormComponent({ onAddStudent }: InsertFormComponentProps) {
   const [formData, setFormData] = useState({
