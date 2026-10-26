@@ -25,7 +25,7 @@ export default function AttendanceLogTable({
     <section className="w-200 flex flex-col rounded-xl bg-surface-container-lowest shadow-[0_2px_4px_rgba(0,0,0,0.1)] font-sans">
       {studentsLog.length > 0 ? (
         <section className="flex flex-col gap-2 w-full rounded-xl bg-surface-container-lowest">
-          <div className="flex items-center  w-full px-5 py-5 rounded-t-xl bg-surface-container-highest">
+          <div className="flex items-center  w-full mb-2 px-5 py-5 rounded-t-xl bg-surface-container-highest">
             <span className=" w-4/7 text-lg font-sans font-bold text-on-surface-variant ">
               Nome
             </span>
@@ -48,13 +48,13 @@ export default function AttendanceLogTable({
                 <div className="flex items-center w-1/7 ml-2">
                   <button
                     onClick={() => onAttendanceChange(student.id, "P")}
-                    className={`px-2 py-1 w-8 rounded-l-md hover:backdrop-filter hover:brightness-80 transition-colors ${active[student.id] === "P" ? "bg-status-present text-status-present-bg" : "bg-surface-container-highest text-white"}`}
+                    className={`px-2 py-1 w-8 rounded-l-md cursor-pointer transition-colors hover:backdrop-filter hover:brightness-80 hover:transition-color ${active[student.id] === "P" ? "bg-status-present text-status-present-bg" : "bg-surface-container-highest text-white"}`}
                   >
                     P
                   </button>
                   <button
                     onClick={() => onAttendanceChange(student.id, "F")}
-                    className={`px-2 py-1 w-8 rounded-r-md hover:backdrop-filter hover:brightness-80 transition-colors ${active[student.id] === "F" ? "bg-status-absent text-status-absent-bg" : "bg-surface-container-highest text-white"}`}
+                    className={`px-2 py-1 w-8 rounded-r-md cursor-pointer transition-colors hover:backdrop-filter hover:brightness-80 hover:transition-color ${active[student.id] === "F" ? "bg-status-absent text-status-absent-bg" : "bg-surface-container-highest text-white"}`}
                   >
                     F
                   </button>

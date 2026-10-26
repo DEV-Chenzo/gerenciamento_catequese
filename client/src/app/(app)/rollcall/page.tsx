@@ -14,6 +14,8 @@ export default function RollCallPage() {
   const [sortDirection, setSortDirection] = useState<"asc" | "desc" | "none">(
     "none",
   );
+  const [nameFilter, setNameFilter] = useState("");
+  const [selectedClassYear, setSelectedClassYear] = useState<"CURRENT" | "NEXT" | null>(null);
 
   useEffect(() => {
     async function fetchStudentsFromApi() {
@@ -54,9 +56,31 @@ export default function RollCallPage() {
     setStudents(sortedStudents);
   };
 
+  const filteredStudents = students.filter((student) => {
+    const matchesName = student.name
+      .trimStart()
+      .toLocaleLowerCase("pt-BR")
+      .startsWith(nameFilter.trim().toLocaleLowerCase("pt-BR"));
+    const matchesClassYear =
+      selectedClassYear === null || student.classYear === selectedClassYear;
+
+    return matchesName && matchesClassYear;
+  });
+
+  const handleClassYearChange = (classYear: "CURRENT" | "NEXT") => {
+    setSelectedClassYear((current) =>
+      current === classYear ? null : classYear,
+    );
+  };
+
+  const handleClearFilters = () => {
+    setNameFilter("");
+    setSelectedClassYear(null);
+  };
+
   if (loading) {
     return (
-      <div className="p-6 bg-surface-container-lowest rounded-md shadow">
+      <div className="flex justify-center items-center p-6 rounded-md">
         <p className="text-gray-500 animate-pulse">Carregando estudantes...</p>
       </div>
     );
@@ -75,8 +99,13 @@ export default function RollCallPage() {
       <StudentsLogTableFilter
         orderValue={orderValue}
         inAlphabeticalOrder={handleAlphabeticalOrderToggle}
+        nameFilter={nameFilter}
+        onFilterChange={setNameFilter}
+        selectedClassYear={selectedClassYear}
+        onClassYearChange={handleClassYearChange}
+        onClearFilters={handleClearFilters}
       />
-      <AttendanceLogTable studentsLog={students} />
+      <AttendanceLogTable studentsLog={filteredStudents} />
     </div>
   );
 }

@@ -7,6 +7,11 @@ import { FaTrashAlt } from "react-icons/fa";
 export default function StudentsLogTableFilter({
   orderValue,
   inAlphabeticalOrder,
+  nameFilter,
+  onFilterChange,
+  selectedClassYear,
+  onClassYearChange,
+  onClearFilters,
 }: StudentsLogTableFilterProps) {
   const handleOrderToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -22,6 +27,8 @@ export default function StudentsLogTableFilter({
         <input
           type="text"
           placeholder="Filtrar alunos..."
+          value={nameFilter ?? ""}
+          onChange={(e) => onFilterChange(e.target.value)}
           className="w-full h-8 bg-surface-container rounded-r-md border-none focus:outline-none focus:ring-0"
         />
       </div>
@@ -51,7 +58,31 @@ export default function StudentsLogTableFilter({
             </span>
           )}
         </button>
-        <button className="flex justify-center items-center self-end gap-2 px-2 py-1 font-sans text-md font-semibold text-on-surface-variant rounded-lg border-none focus:outline-none">
+        <section className="flex justify-between items-end-safe gap-2">
+          <button
+            type="button"
+            aria-pressed={selectedClassYear === "CURRENT"}
+            onClick={() => onClassYearChange("CURRENT")}
+            className={`flex justify-center items-center gap-2 px-2 py-1 w-18 font-sans text-xs font-medium cursor-pointer rounded-lg border-none focus:outline-none ${selectedClassYear === "CURRENT" ? "bg-primary text-on-primary" : "bg-surface-container text-on-surface-variant"}`}
+          >
+            Atual
+          </button>
+          <button
+            type="button"
+            aria-pressed={selectedClassYear === "NEXT"}
+            onClick={() => onClassYearChange("NEXT")}
+            className={`flex justify-center items-center gap-2 px-2 py-1 w-18 font-sans text-xs font-medium cursor-pointer rounded-lg border-none focus:outline-none ${selectedClassYear === "NEXT" ? "bg-primary text-on-primary" : "bg-surface-container text-on-surface-variant"}`}
+          >
+            Próxima
+          </button>
+        </section>
+        <button
+          type="button"
+          onClick={onClearFilters}
+          aria-label="Limpar filtros"
+          title="Limpar filtros"
+          className="flex justify-center items-center self-end gap-2 px-2 py-1 font-sans text-md font-semibold text-on-surface-variant rounded-lg border-none focus:outline-none"
+        >
           <FaTrashAlt />
         </button>
       </div>
