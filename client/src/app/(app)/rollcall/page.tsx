@@ -4,9 +4,10 @@ import { getStudents } from "@/services/internal/StudentsService";
 import IStudentLog from "@/lib/interfaces/IStudentsLog";
 import StudentsLogTableFilter from "@/components/rollcall/StudentsLogTableFilter";
 import AttendanceLogTable from "@/components/rollcall/AttendanceLogTable";
+import InformationMenu from "@/components/registration/informationMenu";
 
 export default function RollCallPage() {
-  // Lógica para buscar os registros de presença do servidor
+  // TODO: Lógica para buscar os registros de presença do servidor
   const [students, setStudents] = useState<IStudentLog[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -20,14 +21,14 @@ export default function RollCallPage() {
   useEffect(() => {
     async function fetchStudentsFromApi() {
       try {
-        const data = await getStudents(); // ou sua rota do backend
-        setStudents(data); // Atualiza o estado com os dados da API
+        const data = await getStudents();
+        setStudents(data);
       } catch (err) {
         setErrorMessage(
           err instanceof Error ? err.message : "Erro desconhecido",
         );
       } finally {
-        setLoading(false); // Finaliza o estado de carregamento
+        setLoading(false); 
       }
     }
 
@@ -96,6 +97,7 @@ export default function RollCallPage() {
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 p-4">
+      <InformationMenu />
       <StudentsLogTableFilter
         orderValue={orderValue}
         inAlphabeticalOrder={handleAlphabeticalOrderToggle}
