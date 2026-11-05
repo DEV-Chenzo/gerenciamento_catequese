@@ -1,10 +1,13 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { createAttendance } from "@/services/internal/AttendanceService";
 import { getStudents } from "@/services/internal/StudentsService";
 import IStudentLog from "@/lib/interfaces/IStudentsLog";
 import StudentsLogTableFilter from "@/components/rollcall/StudentsLogTableFilter";
 import AttendanceLogTable from "@/components/rollcall/AttendanceLogTable";
-import InformationMenu from "@/components/registration/informationMenu";
+import FeedbackModal from "@/components/rollcall/FeedbackModal";
+import InformationMenu from "@/components/rollcall/InformationMenu";
+
 
 export default function RollCallPage() {
   // TODO: Lógica para buscar os registros de presença do servidor
@@ -16,7 +19,113 @@ export default function RollCallPage() {
     "none",
   );
   const [nameFilter, setNameFilter] = useState("");
-  const [selectedClassYear, setSelectedClassYear] = useState<"CURRENT" | "NEXT" | null>(null);
+  const [selectedClassYear, setSelectedClassYear] = useState<
+    "CURRENT" | "NEXT" | null
+  >(null);
+  const [attendance, setAttendance] = useState<Record<string, "P" | "F">>({});
+  const bulkAttendanceSnapshot = useRef<{
+    status: "P" | "F";
+    previous: Record<string, "P" | "F" | undefined>;
+  } | null>(null);
+  const [saveMessage, setSaveMessage] = useState("");
+  const [ saveErrorMessage, setSaveErrorMessage] = useState("");
+
+  const handleAttendanceChange = (studentId: string, status: "P" | "F") => {
+    bulkAttendanceSnapshot.current = null;
+    setAttendance((current) => {
+      if (current[studentId] === status) {
+        const updated = { ...current };
+        delete updated[studentId];
+        return updated;
+      }
+      return { ...current, [studentId]: status };
+    });
+  };
+
+  const markFilteredStudents = (status: "P" | "F") => {
+    const snapshot = bulkAttendanceSnapshot.current;
+
+    if (snapshot?.status === status) {
+      setAttendance((current) => {
+        const restored = { ...current };
+        Object.entries(snapshot.previous).forEach(([studentId, previousStatus]) => {
+          if (previousStatus === undefined) {
+            delete restored[studentId];
+          } else {
+            restored[studentId] = previousStatus;
+          }
+        });
+        return restored;
+      });
+      bulkAttendanceSnapshot.current = null;
+      return;
+    }
+
+    const previous: Record<string, "P" | "F" | undefined> = {};
+    filteredStudents.forEach((student) => {
+      previous[student.id] = attendance[student.id];
+    });
+    bulkAttendanceSnapshot.current = { status, previous };
+
+    setAttendance((current) => {
+      const updated = { ...current };
+      filteredStudents.forEach((student) => {
+        updated[student.id] = status;
+      });
+      return updated;
+    });
+  };
+
+  const clearFilteredAttendance = () => {
+    bulkAttendanceSnapshot.current = null;
+    setAttendance((current) => {
+      const updated = { ...current };
+      filteredStudents.forEach((student) => {
+        delete updated[student.id];
+      });
+      return updated;
+    });
+  };
+
+  const onSaveAndFinish = async () => {
+    const recordsByClassYear = (
+      selectedClassYear ? [selectedClassYear] : (["CURRENT", "NEXT"] as const)
+    )
+      .map((classYear) => ({
+        classYear,
+        records: filteredStudents
+          .filter(
+            (student) =>
+              student.classYear === classYear && attendance[student.id],
+          )
+          .map((student) => ({
+            studentId: student.id,
+            present: attendance[student.id] === "P",
+          })),
+      }))
+      .filter(({ records }) => records.length > 0);
+
+    if (recordsByClassYear.length === 0) {
+      setSaveMessage(
+        "Marque a presença ou ausência de pelo menos um estudante.",
+      );
+      return;
+    }
+
+    try {
+      const date = new Date().toISOString();
+      await Promise.all(
+        recordsByClassYear.map(({ classYear, records }) =>
+          createAttendance({ date, classYear, records }),
+        ),
+      );
+      setSaveMessage("Chamada salva com sucesso.");
+    } catch (error) {
+      setSaveErrorMessage(
+        error instanceof Error ? error.message : "Erro ao salvar a chamada.",
+      );
+    }
+  };
 
   useEffect(() => {
     async function fetchStudentsFromApi() {
@@ -28,13 +137,13 @@ export default function RollCallPage() {
           err instanceof Error ? err.message : "Erro desconhecido",
         );
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     }
 
     fetchStudentsFromApi();
   }, []);
-  
+
   const handleAlphabeticalOrderToggle = () => {
     const sortedStudents = [...students];
 
@@ -68,6 +177,16 @@ export default function RollCallPage() {
     return matchesName && matchesClassYear;
   });
 
+  const { present: presentCount, absent: absentCount } = Object.values(attendance).reduce(
+    (counts, status) => {
+      if (status === "P") counts.present += 1;
+      else if (status === "F") counts.absent += 1;
+      return counts;
+    },
+    { present: 0, absent: 0 },
+  );
+  const markedCount = presentCount + absentCount;
+
   const handleClassYearChange = (classYear: "CURRENT" | "NEXT") => {
     setSelectedClassYear((current) =>
       current === classYear ? null : classYear,
@@ -89,15 +208,40 @@ export default function RollCallPage() {
 
   if (errorMessage) {
     return (
-      <div className="p-6 bg-red-50 text-red-600 rounded-md shadow">
-        <p>{errorMessage}</p>
+      <div className="flex justify-center items-center w-full h-80 p-6 bg-red-50 text-red-600 rounded-md shadow">
+        <p className="text-md font-inter font-bold">{errorMessage}</p>
       </div>
     );
   }
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 p-4">
-      <InformationMenu />
+      <InformationMenu
+        enrolledCount={students.length}
+        presentCount={presentCount}
+        absentCount={absentCount}
+        markedCount={markedCount}
+        onSaveAndFinish={onSaveAndFinish}
+        allStudentsPresent={() => markFilteredStudents("P")}
+        allStudentsAbsent={() => markFilteredStudents("F")}
+        clearAllStudents={clearFilteredAttendance}
+      />
+      {saveMessage && (
+        <FeedbackModal
+          message={saveMessage}
+          onClose={() => setSaveMessage("")}
+        />
+      )}
+      {saveErrorMessage && (
+        <FeedbackModal
+          message={saveErrorMessage}
+          onClose={() => setSaveErrorMessage("")}
+          borderColor="border-error"
+          textColor="text-error"
+          bgColor="bg-status-absent"
+          bgColorHover="bg-status-absent-hover"
+        />
+      )}
       <StudentsLogTableFilter
         orderValue={orderValue}
         inAlphabeticalOrder={handleAlphabeticalOrderToggle}
@@ -107,7 +251,11 @@ export default function RollCallPage() {
         onClassYearChange={handleClassYearChange}
         onClearFilters={handleClearFilters}
       />
-      <AttendanceLogTable studentsLog={filteredStudents} />
+      <AttendanceLogTable
+        studentsLog={filteredStudents}
+        attendance={attendance}
+        onAttendanceChange={handleAttendanceChange}
+      />
     </div>
   );
 }

@@ -1,26 +1,11 @@
-import { useState } from "react";
 import AttendanceLogTableProps from "@/lib/props/AttendanceLogTableProps";
 
 export default function AttendanceLogTable({
   studentsLog,
+  attendance,
+  onAttendanceChange,
 }: AttendanceLogTableProps) {
-  const [active, setActive] = useState<Record<string, "P" | "F">>({});
-
-  const onAttendanceChange = (studentId: string, status: "P" | "F") => {
-    setActive((prev) => {
-      // Se o botão clicado já é o que está selecionado para esse aluno...
-      if (prev[studentId] === status) {
-        const copy = { ...prev };
-        delete copy[studentId]; // Remove o registro, tornando o estado vazio (padrão)
-        return copy;
-      }
-      // Caso contrário, define o novo status escolhido ("P" ou "F")
-      return {
-        ...prev,
-        [studentId]: status,
-      };
-    });
-  };
+  const active = attendance;
   return (
     <section className="w-200 flex flex-col rounded-xl bg-surface-container-lowest shadow-[0_2px_4px_rgba(0,0,0,0.1)] font-sans">
       {studentsLog.length > 0 ? (
