@@ -19,6 +19,9 @@ export default class StudentServices {
       select: {
         id: true,
         name: true,
+        phone: true,
+        baptism: true,
+        firstCommunion: true,
         classYear: true,
         summary: {
           select: {
@@ -41,6 +44,9 @@ export default class StudentServices {
       select: {
         id: true,
         name: true,
+        phone: true,
+        baptism: true,
+        firstCommunion: true,
         classYear: true,
         summary: {
           select: {
@@ -70,6 +76,22 @@ export default class StudentServices {
     // Retorna a string do id ou null se não encontrar
     return student ? student.id : null;
   }
+  async updateStudents(data: StudentsList) {
+    const updatePromises = data.list.map((student) =>
+      prisma.student.update({
+        where: { id: student.id },
+        data: {
+          name: student.name,
+          phone: student.phone,
+          baptism: student.baptism,
+          firstCommunion: student.firstCommunion,
+          classYear: student.classYear,
+        },
+      })
+    );
+    return Promise.all(updatePromises);
+  }
+
   async deleteStudents(data: StudentsList) {
     const studentsNames = data.list.map((student) => student.name);
 

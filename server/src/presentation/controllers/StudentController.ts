@@ -34,7 +34,11 @@ import { StudentsList } from "@/domain/entities/StudentList";
     }
     return reply.status(200).send({ id: studentId });
   }
-
+  async update(request: FastifyRequest, reply: FastifyReply) {
+    const data = request.body as StudentsList;
+    const result = await studentServices.updateStudents(data);
+    return reply.status(200).send(result);
+  }
   async delete(request: FastifyRequest, reply: FastifyReply) {
     const data = request.body as StudentsList;
     const result = await studentServices.deleteStudents(data);

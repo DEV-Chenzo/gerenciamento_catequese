@@ -11,7 +11,8 @@ export async function studentRoutes(app: FastifyInstance) {
 
   // Buscar ID de um aluno por nome (route param: /students/id/Robert)
   app.get("/students/id/:name", studentController.getIdByName);
-
+  // Atualizar informações de alunos em lote
+  app.put("/students", studentController.update);
   // Deletar alunos em lote
   app.delete("/students", studentController.delete);
 }
