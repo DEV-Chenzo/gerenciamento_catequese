@@ -18,3 +18,19 @@ export async function createAttendance(data: AttendancePayload) {
 
   return response.json();
 }
+
+export async function getAttendance() {
+  const baseUrl = process.env.API_INTERNAL_URL;
+  const targetUrl = `${baseUrl}/attendance`;
+  const response = await fetch(targetUrl, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Não foi possível obter o histórico de chamadas.");
+  }
+  console.log("Response:", response);
+  return response.json();
+}
