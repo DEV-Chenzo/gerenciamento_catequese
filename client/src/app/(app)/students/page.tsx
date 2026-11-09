@@ -57,14 +57,14 @@ export default function StudentsPage() {
           <h1 className="text-5xl font-serif font-medium text-primary">
             Gestão de Alunos
           </h1>
-          <p className="text-md text-on-surface ml-1">
+          <p className="text-md text-on-surface ml-1 max-w-lg">
             Acompanhamento dos jovens, histórico sacramental e contato fraterno
             com as famílias da comunidade.
           </p>
         </div>
         <section className="flex gap-16 items-center justify-center px-6 bg-surface-container-lowest rounded-xl">
           <div className="flex flex-col items-center gap-2 w-14 ">
-            <h3 className="text-xs font-inter text-on-surface-variant text-center w-68">
+            <h3 className="text-xs font-inter text-on-surface-variant text-center w-30">
               Total Geral
             </h3>
             <span className="text-2xl font-inter font-medium text-primary">
@@ -72,7 +72,7 @@ export default function StudentsPage() {
             </span>
           </div>
           <div className="flex flex-col items-center gap-2 w-14 ">
-            <h3 className="text-xs font-inter text-on-surface-variant text-center w-68 pr-2">
+            <h3 className="text-xs font-inter text-on-surface-variant text-center w-30 pr-2">
               Batizados
             </h3>
             <span className="text-2xl font-inter font-medium text-secondary">
@@ -80,7 +80,7 @@ export default function StudentsPage() {
             </span>
           </div>
           <div className="flex flex-col items-center gap-2 w-14">
-            <h3 className="text-xs font-inter text-on-surface-variant text-center w-68">
+            <h3 className="text-xs font-inter text-on-surface-variant text-center w-30">
               Presença Média
             </h3>
             <span className="text-2xl font-inter font-medium text-status-present">
